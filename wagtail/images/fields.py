@@ -58,10 +58,12 @@ class WagtailImageField(ImageField):
 
     def check_image_file_format(self, f):
         # Check file extension
+
         extension = os.path.splitext(f.name)[1].lower()[1:]
 
         if extension not in ALLOWED_EXTENSIONS:
-            raise ValidationError(self.error_messages['invalid_image_extension'], code='invalid_image_extension')
+            msg = f"{self.error_messages['invalid_image_extension']}: f.name={f.name}, extension={extension}, ALLOWED_EXTENSIONS={ALLOWED_EXTENSIONS}"
+            raise ValidationError(msg, code='invalid_image_extension')
 
         image_format = extension.upper()
         if image_format == 'JPG':
